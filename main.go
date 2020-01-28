@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -12,13 +13,21 @@ import (
 )
 
 func main() {
+	TestChanel()
+
 	log.Print("Init app")
+	// Create router
 	router := mux.NewRouter()
 
-	router.HandleFunc("/getTasks", routes.GetTasks).Methods("GET")
-	router.HandleFunc("/getCheck", routes.GetCheck).Methods("GET")
-	router.HandleFunc("/getChecks", routes.GetChecks).Methods("GET")
+	// Define endpoints
+	router.HandleFunc("/tasks", routes.GetTasks).Methods("GET")
+	router.HandleFunc("/task/{id}", routes.GetTask).Methods("GET")
+	router.HandleFunc("/task/{id}", routes.CreateTask).Methods("POST")
+	router.HandleFunc("/task/{id}", routes.DeleteTask).Methods("DELETE")
+	router.HandleFunc("/check", routes.GetCheck).Methods("GET")
+	router.HandleFunc("/checks", routes.GetChecks).Methods("GET")
 
+	// Add listen port
 	err := http.ListenAndServe(":3001", router)
 
 	if err != nil {
@@ -48,4 +57,13 @@ func main() {
 
 	log.Print("App run..")
 
+}
+
+func TestChanel() {
+	chanEl := make(chan int)
+	go func() {
+		chanEl <- 1
+	}()
+
+	fmt.Println(<-chanEl)
 }
