@@ -1,0 +1,7 @@
+{
+    "name": "Go Test",
+    "description": "",
+    "buildpacks": {
+        "url": "heroku/go"
+    }
+}
