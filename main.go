@@ -6,19 +6,21 @@ import (
 	"log"
 	"net/http"
 
-	"./routes"
-	firebase "firebase.google.com/go"
+	"firebase.google.com/go"
 	"github.com/gorilla/mux"
 	"google.golang.org/api/option"
+	
+	"github.com/devrodriguez/go-api-rest/routes"
 )
 
 func main() {
-	TestChanel()
-
-	log.Print("Init app")
+	var port = ":3001"
+	
+	log.Printf("Init app on port %s", port)
 	// Create router
 	router := mux.NewRouter()
-
+	
+	TestChanel()
 	// Define endpoints
 	router.HandleFunc("/tasks", routes.GetTasks).Methods("GET")
 	router.HandleFunc("/task/{id}", routes.GetTask).Methods("GET")
@@ -27,8 +29,15 @@ func main() {
 	router.HandleFunc("/check", routes.GetCheck).Methods("GET")
 	router.HandleFunc("/checks", routes.GetChecks).Methods("GET")
 
+	router.HandleFunc("/signin", routes.SignIn).Methods("GET")
+	router.HandleFunc("/login", routes.Login).Methods("GET")
+	router.HandleFunc("/clientes", routes.GetClientes).Methods("GET")
+	router.HandleFunc("/cliente/saludo", routes.SaludoCliente).Methods("GET")
+	router.HandleFunc("/cliente", routes.CreateCliente).Methods("POST")
+	router.HandleFunc("/parms", routes.GetParms).Methods("GET")
+
 	// Add listen port
-	err := http.ListenAndServe(":3001", router)
+	err := http.ListenAndServe(port, router)
 
 	if err != nil {
 		log.Fatal(err)

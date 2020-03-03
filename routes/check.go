@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"../models"
+	"github.com/devrodriguez/go-api-rest/models"
 
 	firebase "firebase.google.com/go"
 	"google.golang.org/api/iterator"
